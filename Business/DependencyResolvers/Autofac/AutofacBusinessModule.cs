@@ -1,6 +1,9 @@
 using Autofac;
+using Autofac.Extras.DynamicProxy;
 using Business.Abstract;
 using Business.Concrete;
+using Castle.DynamicProxy;
+using Core.Utilities.Interception;
 using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -18,5 +21,13 @@ public class AutofacBusinessModule:Module
         builder.RegisterType<AuthManager>().As<IAuthService>().InstancePerLifetimeScope();
         builder.RegisterType<UserManager>().As<IUserService>().InstancePerLifetimeScope();
         builder.RegisterType<EfUserDal>().As<IUserDal>().InstancePerLifetimeScope();
+        
+        var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+        builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
+            .EnableInterfaceInterceptors(new ProxyGenerationOptions()
+            {
+                Selector = new AspectInterceptorSelector()
+            }).SingleInstance();
     }
 }
