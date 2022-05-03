@@ -1,3 +1,5 @@
+using Core.Entities;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,4 +13,7 @@ public class NorthwindContext:DbContext
    }
 
    public DbSet<Product> Products { get; set; }
+   public DbSet<User> Users { get; set; }
+   public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+   public DbSet<OperationClaim> OperationClaims { get; set; }
 }
