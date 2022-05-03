@@ -1,5 +1,8 @@
 using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Transaction;
+using Core.Aspects.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -30,7 +33,8 @@ public class ProductManager : IProductService
     {
         return new SuccessDataResult<List<Product>>(_productDal.GetList(p => p.CategoryId == categoryId).ToList());
     }
-
+    
+    [ValidationAspect(typeof(ProductValidator))]
     public IResult Add(Product product)
     {
         _productDal.Add(product);
@@ -62,6 +66,7 @@ public class ProductManager : IProductService
     }
 
 
+    [TransactionScopeAspect]
     public IResult TransactionalOperation(Product product)
     {
         _productDal.Update(product);
