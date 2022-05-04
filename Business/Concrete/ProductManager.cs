@@ -1,6 +1,7 @@
 using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Caching;
 using Core.Aspects.Transaction;
 using Core.Aspects.Validation;
 using Core.Utilities.Results;
@@ -22,7 +23,8 @@ public class ProductManager : IProductService
     {
         return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
     }
-
+    
+    [CacheAspect(1)]
     public IDataResult<List<Product>> GetList()
     {
         Thread.Sleep(5000);
@@ -35,6 +37,7 @@ public class ProductManager : IProductService
     }
     
     [ValidationAspect(typeof(ProductValidator))]
+    [CacheRemoveAspect("IProductService.Get")]
     public IResult Add(Product product)
     {
         _productDal.Add(product);

@@ -17,7 +17,6 @@ public class AutofacBusinessModule:Module
         builder.RegisterType<ProductManager>().As<IProductService>().InstancePerLifetimeScope();
         builder.RegisterType<EfProductDal>().As<IProductDal>().InstancePerLifetimeScope();
         
-        builder.RegisterType<JwtHelper>().As<ITokenHelper>().InstancePerLifetimeScope();
         builder.RegisterType<AuthManager>().As<IAuthService>().InstancePerLifetimeScope();
         builder.RegisterType<UserManager>().As<IUserService>().InstancePerLifetimeScope();
         builder.RegisterType<EfUserDal>().As<IUserDal>().InstancePerLifetimeScope();
