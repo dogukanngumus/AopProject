@@ -1,7 +1,9 @@
 using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Caching;
+using Core.Aspects.Performance;
 using Core.Aspects.Transaction;
 using Core.Aspects.Validation;
 using Core.Utilities.Results;
@@ -24,10 +26,12 @@ public class ProductManager : IProductService
         return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
     }
     
+    [SecuredOperation("Product.List")]
     [CacheAspect(1)]
+    [PerformanceAspect(8)]
     public IDataResult<List<Product>> GetList()
     {
-        Thread.Sleep(5000);
+        Thread.Sleep(6000);
         return new SuccessDataResult<List<Product>>(_productDal.GetList().ToList());
     }
 

@@ -1,8 +1,9 @@
+using System.Diagnostics;
 using Core.CrossCuttingConcerns.Caching;
 using Core.CrossCuttingConcerns.Caching.Microsoft;
 using Core.Utilities.IoC;
 using Core.Utilities.Security.Jwt;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.DependencyResolvers;
@@ -13,6 +14,8 @@ public class CoreModule:ICoreModule
     {
         services.AddMemoryCache();
         services.AddScoped<ITokenHelper, JwtHelper>();
-        services.AddScoped<ICacheManager, MemoryCacheManager>();
+        services.AddSingleton<ICacheManager, MemoryCacheManager>();
+        services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
+        services.AddSingleton<Stopwatch>();
     }
 }
