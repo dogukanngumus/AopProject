@@ -17,7 +17,6 @@ namespace API.Controllers
         }
 
         [HttpGet("getall")]
-        [Authorize(Roles = "Product.List")]
         public IActionResult GetList()
         {
             
