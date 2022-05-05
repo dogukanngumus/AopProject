@@ -27,6 +27,11 @@ public class MemoryCacheManager:ICacheManager
         _cache.Set(key, data, TimeSpan.FromMinutes(duration));
     }
 
+    public void Add(string key, object data)
+    {
+        _cache.Set(key, data);
+    }
+
     public bool IsAdd(string key)
     {
         return _cache.TryGetValue(key, out _);
