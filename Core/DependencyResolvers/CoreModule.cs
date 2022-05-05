@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Core.CrossCuttingConcerns.Caching;
 using Core.CrossCuttingConcerns.Caching.Microsoft;
+using Core.CrossCuttingConcerns.Caching.Redis;
 using Core.Utilities.IoC;
 using Core.Utilities.Security.Jwt;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +15,7 @@ public class CoreModule:ICoreModule
     {
         services.AddMemoryCache();
         services.AddScoped<ITokenHelper, JwtHelper>();
-        services.AddSingleton<ICacheManager, MemoryCacheManager>();
+        services.AddSingleton<ICacheManager, RedisCacheManager>();
         services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
         services.AddSingleton<Stopwatch>();
     }
